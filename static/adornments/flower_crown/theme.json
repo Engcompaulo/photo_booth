@@ -1,0 +1,15 @@
+{
+  "name": "flower_crown",
+  "assets": [
+    {
+      "file": "crown.png",
+      "anchor": "above_head",
+      "scale_factor": 2.6,
+      "offset_ratio": [
+        0.0,
+        -0.1
+      ],
+      "rotate_with_face": true
+    }
+  ]
+}

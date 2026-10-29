@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <!-- Viewport tag is required for the responsive layout (Req 10.5, 10.6). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dia de los Muertos Photo Booth &mdash; Honor Every Face</title>
+  <!-- CSS is created by task 10.3 at static/style.css. -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<!--
+  =====================================================================
+  Frontend contract — element id/class hooks for the JS (task 10.2)
+  and the CSS (task 10.3). Keep these stable; both tasks target them.
+
+  IDs (JS behaviour hooks):
+    #upload-form       <form>   — upload form; JS intercepts submit and
+                                   sends a multipart fetch to POST /process.
+    #file-input        <input type="file"> — accepts exactly ONE image,
+                                   accept="image/jpeg,image/png", no "multiple"
+                                   (Req 1.1). Associated <label for="file-input">.
+    #submit-button     <button type="submit"> — triggers processing.
+    #progress-indicator <div>  — hidden by default (hidden attribute);
+                                   JS reveals it during processing within
+                                   500 ms and hides it on result/error (Req 9.2).
+                                   role="status" aria-live="polite".
+    #result-area       <section> — wraps the result; hidden until a result
+                                   image exists (Req 7.1).
+    #result-image      <img>    — the composited Result_Image (blob URL set
+                                   by JS). Has a non-empty alt attribute.
+    #download-button   <a>/<button> — DISABLED by default; JS enables it only
+                                   when a result is available and sets the
+                                   download filename/href (Req 7.2, 7.4).
+    #status-message    <div>    — error/status region ("No face was detected",
+                                   validation errors, timeout, download
+                                   failure). role="status" aria-live="polite".
+
+  Classes (CSS/layout hooks):
+    .photo-booth       page wrapper / layout container.
+    .booth-header      themed title area.
+    .upload-panel      left/top column: form + controls.
+    .result-panel      right/bottom column: result image + download.
+    .btn / .btn-primary / .btn-download  button styling hooks.
+    .is-hidden         optional utility; JS prefers the `hidden` attribute.
+  =====================================================================
+-->
+
+<body class="photo-booth">
+  <header class="booth-header">
+    <h1>💐 Día de los Muertos Photo Booth 💀</h1>
+    <p class="tagline">Upload a photo and celebrate every face with festive Dia de los Muertos adornments.</p>
+  </header>
+
+  <main class="booth-main">
+    <!-- Upload panel: file picker + submit control. -->
+    <section class="upload-panel" aria-labelledby="upload-heading">
+      <h2 id="upload-heading">Choose your photo</h2>
+
+      <form id="upload-form" enctype="multipart/form-data" novalidate>
+        <div class="field">
+          <label for="file-input">Choose an image (JPEG or PNG)</label>
+          <!-- Exactly one image file: no "multiple" attribute (Req 1.1). -->
+          <input
+            type="file"
+            id="file-input"
+            name="image"
+            accept="image/jpeg,image/png"
+            required
+          />
+        </div>
+
+        <button type="submit" id="submit-button" class="btn btn-primary">
+          Create portrait
+        </button>
+      </form>
+
+      <!-- Progress indicator: hidden until processing starts (Req 9.2). -->
+      <div
+        id="progress-indicator"
+        class="progress-indicator"
+        role="status"
+        aria-live="polite"
+        hidden
+      >
+        <span class="spinner" aria-hidden="true"></span>
+        <span class="progress-text">Decorating the faces&hellip;</span>
+      </div>
+
+      <!-- Error / status messages: no face detected, validation, timeout, etc. -->
+      <div
+        id="status-message"
+        class="status-message"
+        role="status"
+        aria-live="polite"
+      ></div>
+    </section>
+
+    <!-- Result panel: the composited image + download control. Hidden until
+         a result is available (Req 7.1). -->
+    <section
+      id="result-area"
+      class="result-panel"
+      aria-labelledby="result-heading"
+      hidden
+    >
+      <h2 id="result-heading">Your festive portrait</h2>
+
+      <img
+        id="result-image"
+        class="result-image"
+        src=""
+        alt="Your uploaded photo with Dia de los Muertos adornments applied to each detected face"
+      />
+
+      <!-- Download disabled by default; JS enables it when a result exists
+           and sets href + download filename (Req 7.2, 7.4). -->
+      <a
+        id="download-button"
+        class="btn btn-download"
+        href="#"
+        download
+        aria-disabled="true"
+        role="button"
+        tabindex="-1"
+      >
+        Download image
+      </a>
+    </section>
+  </main>
+
+  <!-- JS is created by task 10.2 at static/app.js; defer so the DOM is ready. -->
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>

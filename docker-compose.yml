@@ -1,0 +1,28 @@
+# Dia de los Muertos Photo Booth - single-service Docker stack (Req 10.1)
+# Developed and run under WSL. Quick start:
+#   docker compose up --build
+# then open http://localhost:5000
+#
+# Unlike desafio3/desafio4 this app needs no database or model server: the
+# MediaPipe models are bundled in the image and the pipeline runs fully
+# in-memory, so a single web service is enough.
+services:
+  # Flask app served by gunicorn
+  web:
+    build: .
+    ports:
+      # Publish the configured HTTP port (matches gunicorn's bind and EXPOSE)
+      - "5000:5000"
+    environment:
+      # app.py reads HOST/PORT in its __main__ block; gunicorn binds 5000 in the
+      # Dockerfile CMD, so keep PORT consistent with the published port.
+      PORT: "5000"
+    # Optional healthcheck hitting GET / so a failed start is visible in
+    # `docker compose ps` / logs (Req 10.2). Uses Python (already in the image)
+    # to avoid depending on curl/wget being installed.
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

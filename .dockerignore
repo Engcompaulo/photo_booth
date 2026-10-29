@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.pytest_cache/
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tests are not needed in the runtime image
+tests/
+conftest.py
+
+# Docs (SUBMISSION.md etc.) are not needed to run the image
+*.md
+
+# Local / VCS / editor / tooling
+.git/
+.gitignore
+.kiro/
+.vscode/
+.idea/
+_compile_out.txt
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose.yml

@@ -1,0 +1,25 @@
+{
+  "name": "catrina",
+  "assets": [
+    {
+      "file": "veil.png",
+      "anchor": "above_head",
+      "scale_factor": 2.8,
+      "offset_ratio": [
+        0.0,
+        -0.2
+      ],
+      "rotate_with_face": true
+    },
+    {
+      "file": "lips.png",
+      "anchor": "mouth",
+      "scale_factor": 1.1,
+      "offset_ratio": [
+        0.0,
+        0.0
+      ],
+      "rotate_with_face": true
+    }
+  ]
+}

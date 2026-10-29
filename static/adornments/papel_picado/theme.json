@@ -1,0 +1,15 @@
+{
+  "name": "papel_picado",
+  "assets": [
+    {
+      "file": "banner.png",
+      "anchor": "full_frame",
+      "scale_factor": 1.0,
+      "offset_ratio": [
+        0.0,
+        0.0
+      ],
+      "rotate_with_face": false
+    }
+  ]
+}

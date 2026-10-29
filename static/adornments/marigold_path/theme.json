@@ -1,0 +1,25 @@
+{
+  "name": "marigold_path",
+  "assets": [
+    {
+      "file": "frame.png",
+      "anchor": "full_frame",
+      "scale_factor": 1.0,
+      "offset_ratio": [
+        0.0,
+        0.0
+      ],
+      "rotate_with_face": false
+    },
+    {
+      "file": "crown.png",
+      "anchor": "above_head",
+      "scale_factor": 2.4,
+      "offset_ratio": [
+        0.0,
+        -0.1
+      ],
+      "rotate_with_face": true
+    }
+  ]
+}

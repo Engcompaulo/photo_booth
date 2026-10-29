@@ -1,0 +1,349 @@
+/*
+ * Dia de los Muertos Photo Booth — responsive stylesheet (task 10.3).
+ *
+ * Mobile-first approach:
+ *   - Base styles target narrow viewports (320–767 px) and render a single
+ *     vertical column with no horizontal scrolling (Req 10.5).
+ *   - A @media (min-width: 768px) block switches to a multi-column desktop
+ *     layout (upload controls in one column, result area in another) with no
+ *     horizontal scrolling (Req 10.6).
+ *
+ * Horizontal overflow is prevented at every width via box-sizing: border-box,
+ * fluid percentage widths, max-width: 100% on media, and overflow-x: hidden on
+ * the page root. The element id/class hooks mirror templates/index.html (the
+ * frontend contract shared with tasks 10.1 and 10.2).
+ */
+
+/* ------------------------------------------------------------------ *
+ * Theme tokens
+ * ------------------------------------------------------------------ */
+:root {
+  --color-bg: #140a24;              /* deep purple-black night sky */
+  --color-surface: #1f1335;         /* raised panel background */
+  --color-surface-alt: #2a1b47;     /* nested fields / inputs */
+  --color-border: #3d2a63;          /* subtle purple border */
+  --color-text: #f3ecff;            /* near-white, high contrast on dark */
+  --color-muted: #c6b6e6;           /* muted lavender for secondary text */
+  --color-accent: #ff7518;          /* marigold (cempasuchil) orange accent */
+  --color-accent-strong: #ff8c3a;   /* brighter orange for hover */
+  --color-purple: #9b5de5;          /* papel picado purple accent */
+  --color-danger: #ff6b6b;          /* error / status text */
+  --color-disabled: #4a3a68;        /* disabled control background */
+
+  --radius: 12px;
+  --space: 1rem;
+  --space-lg: 1.5rem;
+  --max-width: 1100px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* ------------------------------------------------------------------ *
+ * Reset / box model — border-box everywhere avoids overflow surprises.
+ * ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Guard against any accidental horizontal scroll at any viewport width. */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Page wrapper (body.photo-booth)
+ * ------------------------------------------------------------------ */
+.photo-booth {
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  padding: var(--space);
+  background:
+    radial-gradient(circle at 20% 15%, rgba(155, 93, 229, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 10%, rgba(255, 117, 24, 0.14), transparent 40%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------ *
+ * Header
+ * ------------------------------------------------------------------ */
+.booth-header {
+  text-align: center;
+  margin: 0 auto var(--space-lg);
+  max-width: var(--max-width);
+}
+
+.booth-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: clamp(1.6rem, 6vw, 2.5rem);
+  color: var(--color-accent);
+  /* Keep long emoji/text from forcing overflow on tiny screens. */
+  overflow-wrap: break-word;
+}
+
+.booth-header .tagline {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+}
+
+/* ------------------------------------------------------------------ *
+ * Main layout — base (mobile) is a single column (Req 10.5).
+ * ------------------------------------------------------------------ */
+.booth-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* ------------------------------------------------------------------ *
+ * Panels
+ * ------------------------------------------------------------------ */
+.upload-panel,
+.result-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0; /* allow flex children to shrink below content size */
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.upload-panel h2,
+.result-panel h2 {
+  margin-top: 0;
+  color: var(--color-purple);
+  font-size: 1.25rem;
+}
+
+/* ------------------------------------------------------------------ *
+ * Upload form
+ * ------------------------------------------------------------------ */
+#upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+  width: 100%;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.field label {
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+#file-input {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.6rem;
+  background: var(--color-surface-alt);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  /* Prevent the native file control from overflowing narrow viewports. */
+  font-size: 0.95rem;
+}
+
+#file-input::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.4rem 0.8rem;
+  background: var(--color-purple);
+  border: none;
+  border-radius: 8px;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------------ *
+ * Buttons
+ * ------------------------------------------------------------------ */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--color-accent);
+  color: #1a0f00; /* dark text on bright orange for strong contrast */
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background: var(--color-accent-strong);
+}
+
+.btn-download {
+  width: 100%;
+  background: var(--color-purple);
+  color: var(--color-text);
+}
+
+.btn-download:hover,
+.btn-download:focus-visible {
+  background: #b07bf0;
+}
+
+/* Keyboard focus visibility for accessibility. */
+.btn:focus-visible,
+#file-input:focus-visible {
+  outline: 3px solid var(--color-accent-strong);
+  outline-offset: 2px;
+}
+
+/*
+ * Disabled state for controls. The download control is an <a> that starts
+ * with aria-disabled="true" (see template); it may also receive a [disabled]
+ * attribute or the .is-disabled class from the JS (task 10.2). Native
+ * :disabled covers <button>/<input>.
+ */
+#submit-button:disabled,
+.btn:disabled,
+.btn[disabled],
+.btn[aria-disabled="true"],
+.btn.is-disabled {
+  background: var(--color-disabled);
+  color: var(--color-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ *
+ * Progress indicator and status message
+ * ------------------------------------------------------------------ */
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: var(--space);
+  color: var(--color-muted);
+}
+
+.spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  border: 3px solid rgba(255, 117, 24, 0.25);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: booth-spin 0.8s linear infinite;
+}
+
+@keyframes booth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}
+
+.status-message {
+  margin-top: var(--space);
+  color: var(--color-danger);
+  font-weight: 600;
+  overflow-wrap: break-word; /* long messages wrap instead of overflowing */
+}
+
+/* Only render spacing when there is actual status text. */
+.status-message:empty {
+  margin-top: 0;
+}
+
+/* ------------------------------------------------------------------ *
+ * Result area and result image
+ * ------------------------------------------------------------------ */
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+#result-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;  /* never wider than its column — key overflow guard */
+  height: auto;     /* preserve aspect ratio */
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+/* ------------------------------------------------------------------ *
+ * Hidden-state utilities. The template hides elements with the native
+ * `hidden` attribute; the optional `.is-hidden` class mirrors it for JS.
+ * ------------------------------------------------------------------ */
+[hidden],
+.is-hidden,
+.hidden {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Desktop layout — multi-column at >= 768 px with no horizontal
+ * scrolling (Req 10.6). Upload controls sit in one column and the result
+ * area in another.
+ * ------------------------------------------------------------------ */
+@media (min-width: 768px) {
+  .photo-booth {
+    padding: var(--space-lg);
+  }
+
+  .booth-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    align-items: start;
+    gap: var(--space-lg);
+  }
+
+  /*
+   * minmax(0, ...) above lets each grid track shrink below its content size,
+   * which keeps wide result images from pushing the layout past the viewport.
+   */
+  .upload-panel {
+    position: sticky;
+    top: var(--space-lg);
+  }
+
+  .btn-primary,
+  .btn-download {
+    width: auto; /* buttons size to content on wider screens */
+  }
+}

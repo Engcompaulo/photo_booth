@@ -1,0 +1,25 @@
+{
+  "name": "calavera",
+  "assets": [
+    {
+      "file": "calavera.png",
+      "anchor": "eyes",
+      "scale_factor": 2.4,
+      "offset_ratio": [
+        0.0,
+        0.15
+      ],
+      "rotate_with_face": true
+    },
+    {
+      "file": "forehead_flower.png",
+      "anchor": "above_head",
+      "scale_factor": 1.4,
+      "offset_ratio": [
+        0.0,
+        0.1
+      ],
+      "rotate_with_face": true
+    }
+  ]
+}
